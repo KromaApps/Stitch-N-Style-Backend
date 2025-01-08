@@ -45,6 +45,12 @@ const generateFakeData = async () => {
         password: faker.internet.password(),
         profileImage: profileImageUrl,
         isTopDesigner: false,
+        bio: faker.lorem.sentence(),
+        professionalBackground: faker.lorem.sentence(),
+        skills: [faker.word.adjective(), faker.word.noun()],
+        awards: [faker.word.noun()],
+        experience: faker.lorem.sentence(),
+        services: [faker.word.adjective(), faker.word.noun()],
       });
       designers.push(await designer.save());
     }

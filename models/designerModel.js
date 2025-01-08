@@ -10,6 +10,18 @@ const designerSchema = new mongoose.Schema({
     default:
       "https://i0.wp.com/toppng.com/uploads/preview/instagram-default-profile-picture-11562973083brycehrmyv.png",
   },
+  bio: { type: String, default: "" },
+  professionalBackground: { type: String, default: "" },
+  skills: { type: [String], default: [] },
+  awards: { type: [String], default: [] },
+  experience: { type: String, default: "" },
+  services: { type: [String], default: [] },
+  reviews: [
+    {
+      comment: String,
+      rating: { type: Number, min: 1, max: 5 },
+    },
+  ],
 });
 
 const designerModel =

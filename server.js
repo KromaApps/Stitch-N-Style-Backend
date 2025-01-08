@@ -10,6 +10,7 @@ import orderRouter from "./routes/orderRoute.js";
 
 import designerRouter from "./routes/designerRoute.js";
 import designRouter from "./routes/designRoute.js";
+import searchRouter from "./routes/searchRoute.js";
 
 // config
 const app = express();
@@ -29,6 +30,7 @@ app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/designer", designerRouter);
 app.use("/api/design", designRouter);
+app.use("/api/search", searchRouter);
 
 // error handling middleware
 app.use((err, req, res, next) => {

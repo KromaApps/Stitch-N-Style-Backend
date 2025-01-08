@@ -5,9 +5,11 @@ import {
   designerRegistration,
 } from "../controllers/userController.js";
 import {
-  addDesigner,
-  listDesigners,
+  // addDesigner,
+  // listDesigners,
   listTopDesigners,
+  getDesignerDetails,
+  updateDesignerProfile,
 } from "../controllers/designerController.js";
 
 const router = express.Router();
@@ -18,7 +20,9 @@ const designerRouter = express.Router();
 designerRouter.post("/login", designerLogin);
 designerRouter.post("/register", designerRegistration);
 designerRouter.get("/top-designers", listTopDesigners);
-router.post("/add", upload.single("image"), addDesigner);
-router.get("/list", listDesigners);
+// designerRouter.post("/add", upload.single("image"), addDesigner);
+// designerRouter.get("/list", listDesigners);
+designerRouter.get("/:id", getDesignerDetails);
+designerRouter.put("/:id", updateDesignerProfile);
 
 export default designerRouter;
