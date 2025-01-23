@@ -1,6 +1,8 @@
 import designerModel from "../models/designerModel.js";
 import designModel from "../models/designModel.js";
-import { v2 as cloudinary } from "cloudinary";
+import userModel from "../models/userModel.js";
+
+// import { v2 as cloudinary } from "cloudinary";
 
 const getDesignerDetails = async (req, res) => {
   try {
@@ -137,10 +139,60 @@ const listTopDesigners = async (req, res) => {
   }
 };
 
+const followDesigner = async (req, res) => {
+  try {
+    const { designerId } = req.params;
+    const userId = req.user._id;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Please log in to follow the designer.",
+      });
+    }
+
+    const user = await userModel.findById(userId);
+    const designer = await designerModel.findById(designerId);
+
+    if (!user || !designer) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User or designer not found" });
+    }
+
+    const isFollowing = user.following.includes(designerId);
+    if (isFollowing) {
+      user.following = user.following.filter(
+        (id) => id.toString() !== designerId
+      );
+      designer.followersCount -= 1;
+    } else {
+      user.following.push(designerId);
+      designer.followersCount += 1;
+    }
+
+    await user.save();
+    await designer.save();
+
+    res.json({
+      success: true,
+      message: isFollowing
+        ? "Unfollowed the designer"
+        : "Now following the designer",
+    });
+  } catch (error) {
+    console.error("Error following/unfollowing designer:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to follow/unfollow designer" });
+  }
+};
+
 export {
   // addDesigner,
   // listDesigners,
   listTopDesigners,
   getDesignerDetails,
   updateDesignerProfile,
+  followDesigner,
 };

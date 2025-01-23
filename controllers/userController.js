@@ -14,13 +14,17 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.json({ success: false, message: "user doesn't exists" });
+      return res.json({ success: false, message: "user doesn't exist" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {
       const token = createToken(user._id);
-      res.json({ success: true, token });
+      res.json({
+        success: true,
+        token,
+        userType: "user",
+      });
     } else {
       res.json({ success: false, message: "Invalid Credentials" });
     }
@@ -139,7 +143,11 @@ const designerLogin = async (req, res) => {
     }
 
     const token = createToken(designer._id);
-    res.json({ success: true, token });
+    res.json({
+      success: true,
+      token,
+      userType: "designer",
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });

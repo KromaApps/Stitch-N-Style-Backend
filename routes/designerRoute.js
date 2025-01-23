@@ -10,7 +10,9 @@ import {
   listTopDesigners,
   getDesignerDetails,
   updateDesignerProfile,
+  followDesigner,
 } from "../controllers/designerController.js";
+import authUser from "../middleware/auth.js";
 
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
@@ -24,5 +26,6 @@ designerRouter.get("/top-designers", listTopDesigners);
 // designerRouter.get("/list", listDesigners);
 designerRouter.get("/:id", getDesignerDetails);
 designerRouter.put("/:id", updateDesignerProfile);
+designerRouter.put("/follow/:designerId", authUser, followDesigner);
 
 export default designerRouter;
